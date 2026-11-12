@@ -1,6 +1,6 @@
 Name:           iperf3
 Version:        3.9
-Release:        14.1%{?dist}
+Release:        14.2%{?dist}
 Summary:        Measurement tool for TCP/UDP bandwidth performance
 
 License:        BSD
@@ -11,6 +11,8 @@ Patch0001:	0001-cve-2023-7250.patch
 Patch0002:	0002-cve-2024-26306.patch
 Patch0003:	0003-cve-2024-53580.patch
 Patch4: iperf3-3.9-CVE-2025-54350.patch
+# CVE-2026-71217 - wired from Rocky r9: https://git.rockylinux.org/staging/rpms/iperf3/-/raw/r9/SOURCES/0007-cve-2026-71217.patch (content-equivalent; the one whitespace-only hunk near iperf_set_test_timestamp_format is not carried), which is the distro backport of upstream commit 494dd377eca4689672becdf06a85158557db1586 ("Add JSON value checks for get_parameters", #2039), adapted onto the 3.9 baseline by adding the MAX_OMIT_TIME define this baseline lacks
+Patch5: iperf3-3.9-CVE-2026-71217.patch
 
 BuildRequires:  libuuid-devel
 BuildRequires:  gcc
@@ -58,6 +60,9 @@ rm -f %{buildroot}%{_libdir}/libiperf.la
 %{_libdir}/*.so
 
 %changelog
+* Thu Nov 12 2026 pmp <packager@ciq.com> - 3.9-14.2
+- Fix CVE-2026-71217
+
 * Sun Mar 08 2026 Max Spevack <max@ciq.com> - 3.9-14.1
 - Fix CVE-2025-54350
 
